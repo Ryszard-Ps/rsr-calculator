@@ -1,5 +1,5 @@
 from math import exp, sqrt
-from version import version
+from .version import version
 
 MODE_1 = 1
 MODE_2 = 2
