@@ -1,0 +1,10 @@
+mode_1 = RSR(1)
+print(mode_1.validate_frequency(12))
+print(mode_1.validate_frequency(100))
+print(mode_1.validate_frequency(112))
+print(mode_1.get_outputs(92, 25, 'mk'))
+print(mode_1.get_outputs(92, 25, 'mjy'))
+
+mode_2 = RSR(2)
+print(mode_2.get_outputs(92, 0.6292637454966844, 'temperature'))
+print(mode_2.get_outputs(92, 1.7682311248456835, 'flux'))
