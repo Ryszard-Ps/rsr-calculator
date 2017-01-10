@@ -1,8 +1,34 @@
-"""A setuptools based setup module.
+# -*- coding: utf-8 -*-
+"""
+rsr-calculator.
 
-See:
-https://packaging.python.org/en/latest/distributing.html
-https://github.com/pypa/sampleproject
+-----
+It is a package of a calculator to realize observation time
+-----
+Save in a calculator_test.py:
+.. code:: python
+    from rsr_calculator import RSR
+
+    if __name__ == "__main__":
+        mode_1 = RSR(1)
+        print(mode_1.validate_frequency(100))
+        print(mode_1.calculator(92, 25, 'mk'))
+        print(mode_1.calculator(92, 25, 'mjy'))
+
+        mode_2 = RSR(2)
+        print(mode_2.validate_frequency(140))
+        print(mode_2.calculator(92, 0.6292637454966844, 'temperature'))
+        print(mode_2.calculator(92, 1.7682311248456835, 'flux'))
+
+
+And Easy to Setup
+`````````````````
+And run it:
+.. code:: bash
+    $ pip install git+https://github.com/Ryszard-Ps/rsr-calculator.git
+    $ python calculator_test.py
+
+  <https://github.com/Ryszard-Ps/rsr-calculator.git>`_
 """
 
 # Always prefer setuptools over distutils
@@ -31,22 +57,13 @@ setup(
     license='MIT',
 
     # See https://pypi.python.org/pypi?%3Aaction=list_classifiers
-    classifiers=[
-        # How mature is this project? Common values are
-        #   3 - Alpha
-        #   4 - Beta
-        #   5 - Production/Stable
+        classifiers=[
         'Development Status :: 3 - Alpha',
-
-        # Indicate who your project is intended for
+        'Environment :: Web Environment',
         'Intended Audience :: Developers',
-        'Topic :: Software Development :: Build Tools',
-
-        # Pick your license as you wish (should match "license" above)
         'License :: OSI Approved :: MIT License',
-
-        # Specify the Python versions you support here. In particular, ensure
-        # that you indicate whether you support Python 2, Python 3 or both.
+        'Operating System :: OS Independent',
+        'Programming Language :: Python',
         'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 2.6',
         'Programming Language :: Python :: 2.7',
@@ -54,10 +71,10 @@ setup(
         'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
+        'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
+        'Topic :: Software Development :: Libraries :: Python Modules'
     ],
 
-    # What does your project relate to?
-    keywords='sample setuptools development',
 
     # You can just specify the packages manually here if your project is
     # simple. Or you can use find_packages().
@@ -71,16 +88,7 @@ setup(
     # your project is installed. For an analysis of "install_requires" vs pip's
     # requirements files see:
     # https://packaging.python.org/en/latest/requirements.html
-    install_requires=['peppercorn'],
-
-    # List additional groups of dependencies here (e.g. development
-    # dependencies). You can install these using the following syntax,
-    # for example:
-    # $ pip install -e .[dev,test]
-    extras_require={
-        'dev': ['check-manifest'],
-        'test': ['coverage'],
-    },
+    install_requires=[''],
 
     # If there are data files included in your packages that need to be
     # installed, specify them here.  If using Python 2.6 or less, then these
