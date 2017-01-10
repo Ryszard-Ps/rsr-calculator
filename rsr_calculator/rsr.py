@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from math import exp, sqrt
-from version import version
+from .version import version
 
 
 class RSR(object):
