@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
+"""RSR."""
 from math import exp, sqrt
+
 from .version import version
 
 
@@ -54,26 +56,22 @@ class RSR(object):
         self.frequency = freq_data
         if self._mode == self.MODE_1:
             if unit_data == 'mK':
-                mk = self._calculate_mk(time_data)
-                temperature = self._calculate_temperature(mk)
-                return {'mK': mk, 'temperature': temperature}
+                mk = '{0:.2f}'.format(self._calculate_mk(time_data))
+                return {'mK': mk}
             elif unit_data == 'mJy':
-                mjy = self._calculate_mjy(time_data)
-                flux = self._calculate_flux(mjy)
-                return {'mJy': mjy, 'flux': flux}
+                mjy = '{0:.2f}'.format(self._calculate_mjy(time_data))
+                return {'mJy': mjy}
 
         elif self._mode == self.MODE_2:
             if unit_data == 'temperature':
-                temperature = self._calculate_temperature(time_data)
-                mk = self._calculate_mk(temperature)
-                return {'mK': mk, 'temperature': temperature}
+                time = '{0:.2f}'.format(self._calculate_temperature(time_data))
+                return {'time': time}
             elif unit_data == 'flux':
-                flux = self._calculate_flux(time_data)
-                mjy = self._calculate_mjy(flux)
-                return {'mJy': mjy, 'flux': flux}
+                time = '{0:.2f}'.format(self._calculate_flux(time_data))
+                return {'time': time}
 
     def _calculate_mk(self, time_data):
-        """mk unit.
+        """The mK unit.
 
         Keyword arguments:
         time_data -- time observing
@@ -84,7 +82,7 @@ class RSR(object):
             * sqrt(10) / sqrt(time_data)
 
     def _calculate_mjy(self, time_data):
-        """mjy unit.
+        """The mJy unit.
 
         Keyword arguments:
         time_data -- time observing
@@ -95,7 +93,7 @@ class RSR(object):
             * sqrt(10) / sqrt(time_data)
 
     def _calculate_temperature(self, time_data):
-        """temperature unit.
+        """The temperature unit.
 
         Keyword arguments:
         time_data -- time observing
@@ -106,7 +104,7 @@ class RSR(object):
             (100*self._calculate_vel()*(time_data**2))
 
     def _calculate_flux(self, time_data):
-        """flux unit.
+        """The flux unit.
 
         Keyword arguments:
         time_data -- time observing
@@ -124,7 +122,7 @@ class RSR(object):
         return (299792.458*self.VEL)/self.frequency
 
     def validate_frequency(self, freq_data):
-        """validate frequency.
+        """Validate frequency.
 
         Keyword arguments:
         freq_data -- frequency 73 and 111 GHz
@@ -132,6 +130,19 @@ class RSR(object):
         return a boolean
         """
         if freq_data >= 73 and freq_data <= 111:
+            return True
+        else:
+            return False
+
+    def validate_sensitivity(self, sensitivity_data):
+        """Validate sensitivity.
+
+        Keyword arguments:
+        sensivity_data -- sensivity > 0
+
+        return a boolean
+        """
+        if sensitivity_data > 0:
             return True
         else:
             return False
