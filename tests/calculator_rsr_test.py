@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
-"""Test RSR."""
+"""Test RSR.
+
+$ python -m unittest discover -v tests -p "*_test.py" 
+"""
 import unittest
 
 from rsr_calculator.rsr import RSR
@@ -12,7 +15,7 @@ class TestCalculatorRSR(unittest.TestCase):
     def test_version(self):
         """Test of the version."""
         calculator0 = RSR(1)
-        self.assertEqual(calculator0.get_version(), '0.3.1')
+        self.assertEqual(calculator0.get_version(), '0.3.2')
 
     def test_validate_frequency(self):
         """Validate frequency."""
@@ -27,6 +30,7 @@ class TestCalculatorRSR(unittest.TestCase):
         calculator0 = RSR(1)
         self.assertTrue(calculator0.validate_sensitivity(1))
         self.assertFalse(calculator0.validate_sensitivity(0))
+        self.assertFalse(calculator0.validate_sensitivity(0.0))
 
     def test_calculator_mk(self):
         """RMS expected in given time, units mK."""
