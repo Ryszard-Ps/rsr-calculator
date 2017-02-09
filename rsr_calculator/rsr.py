@@ -142,7 +142,7 @@ class RSR(object):
 
         return a boolean
         """
-        if sensitivity_data > 0:
+        if sensitivity_data > 0.0:
             return True
         else:
             return False
