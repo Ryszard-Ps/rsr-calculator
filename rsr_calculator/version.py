@@ -1,2 +1,3 @@
 # -*- coding: utf-8 -*-
-version = '0.3.2'
+"""#Versión de la calculadora."""
+version = '1.0.0'

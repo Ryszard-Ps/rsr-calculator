@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>rsr.py</title>
+  <link rel="stylesheet" href="../pycco.css">
+</head>
+<body>
+<div id='container'>
+  <div id="background"></div>
+  <div class='section'>
+    <div class='docs'><h1>rsr.py</h1></div>
+  </div>
+  <div class='clearall'>
+  <div class='section' id='section-0'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-0'>#</a>
+      </div>
+      <h1>Calculadora RSR.</h1>
+<p><strong>Este modulo nos permite realizar las operaciones para los siguientes modos:</strong></p>
+<ol>
+<li>RMS expected in given time.</li>
+<li>Time required for target RMS.</li>
+</ol>
+<p>-<em>- coding: utf-8 -</em>-</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">sqrt</span>
+
+<span class="kn">from</span> <span class="nn">.version</span> <span class="kn">import</span> <span class="n">version</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-1'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-1'>#</a>
+      </div>
+      <h3>Clase de la calculadora <code>RSR</code>.</h3>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">class</span> <span class="nc">RSR</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-2'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-2'>#</a>
+      </div>
+      <p><strong>Realiza las operaciones para obtener el tiempo
+requerido y el tiempo estimado de una observación.</strong></p>
+<hr />
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">T_SYS</span> <span class="o">=</span> <span class="mi">100</span>
+    <span class="n">VEL</span> <span class="o">=</span> <span class="mf">0.031</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-3'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-3'>#</a>
+      </div>
+      <h3>Constructor de la clase <code>RSR</code>.</h3>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode_data</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-4'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-4'>#</a>
+      </div>
+      <p><strong> :Parameters: </strong></p>
+<ul>
+<li><code>mode_data</code> (int) - Modo de la calculadora (1 y 2)</li>
+</ul>
+<hr />
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="k">if</span> <span class="n">mode_data</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
+                <span class="s2">&quot;The input parameters are incorrect {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">mode_data</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_mode</span> <span class="o">=</span> <span class="n">mode_data</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-5'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-5'>#</a>
+      </div>
+      <h3>Retorna la version de la calculadora.</h3>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">get_version</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-6'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-6'>#</a>
+      </div>
+      <p><strong> :rtype: str </strong></p>
+<hr />
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="k">return</span> <span class="n">version</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-7'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-7'>#</a>
+      </div>
+      <h3>Actualiza el modo de la calculadora.</h3>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">set_mode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode_data</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-8'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-8'>#</a>
+      </div>
+      <p><strong> :Parameters: </strong></p>
+<ul>
+<li><code>mode_data</code> (int) - Modo de la calculadora (1 y 2)</li>
+</ul>
+<hr />
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="bp">self</span><span class="o">.</span><span class="n">_mode</span> <span class="o">=</span> <span class="n">mode_data</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-9'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-9'>#</a>
+      </div>
+      <h3>Retorna el resultado de un modo y unidad en especifico.</h3>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">calculator</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">freq_data</span><span class="p">,</span> <span class="n">time_data</span><span class="p">,</span> <span class="n">unit_data</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-10'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-10'>#</a>
+      </div>
+      <p><strong> :Parameters: </strong></p>
+<ul>
+<li><code>freq_data</code> (int) - Frecuencia entre 73 y 111 (en GHz.).</li>
+<li><code>time_data</code> (float) - Tiempo de observación (en min.).</li>
+<li><code>unit_data</code> (str) - Unidades mK, mJy, temperature, flux.</li>
+</ul>
+<p><strong> :rtype: </strong> dict</p>
+<p><strong>  :note: </strong>Recuerde que <code>unit_data</code> es definida de acuerdo al modo.</p>
+<hr />
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="bp">self</span><span class="o">.</span><span class="n">frequency</span> <span class="o">=</span> <span class="n">freq_data</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mode</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">unit_data</span> <span class="o">==</span> <span class="s1">&#39;mK&#39;</span><span class="p">:</span>
+                <span class="n">mk</span> <span class="o">=</span> <span class="s1">&#39;{0:.2f}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_calculate_mk</span><span class="p">(</span><span class="n">time_data</span><span class="p">))</span>
+                <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;mK&#39;</span><span class="p">:</span> <span class="n">mk</span><span class="p">}</span>
+            <span class="k">elif</span> <span class="n">unit_data</span> <span class="o">==</span> <span class="s1">&#39;mJy&#39;</span><span class="p">:</span>
+                <span class="n">mjy</span> <span class="o">=</span> <span class="s1">&#39;{0:.2f}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_calculate_mjy</span><span class="p">(</span><span class="n">time_data</span><span class="p">))</span>
+                <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;mJy&#39;</span><span class="p">:</span> <span class="n">mjy</span><span class="p">}</span>
+
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mode</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">unit_data</span> <span class="o">==</span> <span class="s1">&#39;temperature&#39;</span><span class="p">:</span>
+                <span class="n">time</span> <span class="o">=</span> <span class="s1">&#39;{0:.2f}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_calculate_temperature</span><span class="p">(</span><span class="n">time_data</span><span class="p">))</span>
+                <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="n">time</span><span class="p">}</span>
+            <span class="k">elif</span> <span class="n">unit_data</span> <span class="o">==</span> <span class="s1">&#39;flux&#39;</span><span class="p">:</span>
+                <span class="n">time</span> <span class="o">=</span> <span class="s1">&#39;{0:.2f}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_calculate_flux</span><span class="p">(</span><span class="n">time_data</span><span class="p">))</span>
+                <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="n">time</span><span class="p">}</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-11'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-11'>#</a>
+      </div>
+      <h3>Devuelve el resultado del modo 1 para la unidad mK.</h3>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">_calculate_mk</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">time_data</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-12'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-12'>#</a>
+      </div>
+      <p><strong> :Parameters: </strong></p>
+<ul>
+<li><code>time_data</code> (float) - Tiempo de observación (en min.)</li>
+</ul>
+<p><strong>:rtype: </strong> float</p>
+<hr />
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">T_SYS</span> <span class="o">/</span> <span class="mi">100</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span> <span class="o">/</span> <span class="n">sqrt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_calculate_vel</span><span class="p">()))</span> \
+            <span class="o">*</span> <span class="n">sqrt</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="o">/</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">time_data</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-13'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-13'>#</a>
+      </div>
+      <h4>Devuelve el resultado del modo 1 para la unidad mJy.</h4>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">_calculate_mjy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">time_data</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-14'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-14'>#</a>
+      </div>
+      <p><strong> :Parameters: </strong></p>
+<ul>
+<li><code>time_data</code> (float) - Tiempo de observación (en min.)</li>
+</ul>
+<p><strong> :rtype: </strong> float</p>
+<hr />
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="k">return</span> <span class="mf">2.81</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">T_SYS</span> <span class="o">/</span> <span class="mi">100</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span> <span class="o">/</span> <span class="n">sqrt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_calculate_vel</span><span class="p">()))</span> \
+            <span class="o">*</span> <span class="n">sqrt</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="o">/</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">time_data</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-15'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-15'>#</a>
+      </div>
+      <h3>Devuelve el resultado del modo 2 para la unidad temperature.</h3>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">_calculate_temperature</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sensitivity_data</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-16'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-16'>#</a>
+      </div>
+      <p><strong> :Parameters: </strong></p>
+<ul>
+<li><code>sensitivity_data</code> (float) - Sensivilidad requerida (en mK.)</li>
+</ul>
+<p><strong> :rtype: </strong> float</p>
+<hr />
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="k">return</span> <span class="p">(</span><span class="mi">10</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">T_SYS</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span>\
+            <span class="p">(</span><span class="mi">100</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_calculate_vel</span><span class="p">()</span> <span class="o">*</span> <span class="p">(</span><span class="n">sensitivity_data</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-17'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-17'>#</a>
+      </div>
+      <h3>Devuelve el resultado del modo 2 para la unidad flux.</h3>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">_calculate_flux</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sensitivity_data</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-18'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-18'>#</a>
+      </div>
+      <p><strong> :Parameters: </strong></p>
+<ul>
+<li><code>sensitivity_data</code> (float) - Sensivilidad requerida (en mJy.)</li>
+</ul>
+<p><strong> :rtype: </strong> float</p>
+<hr />
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="k">return</span> <span class="p">(</span><span class="mf">78.961</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">T_SYS</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span> <span class="o">/</span>\
+            <span class="p">(</span><span class="mi">100</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_calculate_vel</span><span class="p">()</span> <span class="o">*</span> <span class="p">(</span><span class="n">sensitivity_data</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-19'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-19'>#</a>
+      </div>
+      <h3>Calcula el aumento en la velocidad.</h3>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">_calculate_vel</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-20'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-20'>#</a>
+      </div>
+      <p><strong> :rtype: </strong> float</p>
+<hr />
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="k">return</span> <span class="p">(</span><span class="mf">299792.458</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">VEL</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">frequency</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-21'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-21'>#</a>
+      </div>
+      <h3>Valida la frecuencia.</h3>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">validate_frequency</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">freq_data</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-22'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-22'>#</a>
+      </div>
+      <p><strong> :Parameters: </strong></p>
+<ul>
+<li><code>freq_data</code> (float) - Frecuencia (en GHz.)</li>
+</ul>
+<p><strong> :return: </strong> True si el valor es entre 73 y 111</p>
+<p><strong> :rtype: </strong> bool</p>
+<hr />
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="k">if</span> <span class="n">freq_data</span> <span class="o">&gt;=</span> <span class="mi">73</span> <span class="ow">and</span> <span class="n">freq_data</span> <span class="o">&lt;=</span> <span class="mi">111</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">False</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-23'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-23'>#</a>
+      </div>
+      <h3>Valida la sensivilidad.</h3>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">validate_sensitivity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sensitivity_data</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-24'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-24'>#</a>
+      </div>
+      <p><strong> :Parameters: </strong></p>
+<ul>
+<li><code>sensitivity_data</code> (float) - sensivilidad.</li>
+</ul>
+<p><strong> :return: </strong> True si el valor es mayor que cero.</p>
+<p><strong> :rtype: </strong> bool</p>
+<hr />
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="k">if</span> <span class="n">sensitivity_data</span> <span class="o">&gt;</span> <span class="mf">0.0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">False</span>
+
+</pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+</div>
+</body>
