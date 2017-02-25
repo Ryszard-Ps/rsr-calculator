@@ -1,26 +1,34 @@
 # -*- coding: utf-8 -*-
-"""RSR."""
-from math import exp, sqrt
+"""#Calculadora RSR.
+
+**Este modulo nos permite realizar las operaciones para los siguientes modos:**
+
+1. RMS expected in given time.
+2. Time required for target RMS.
+"""
+from math import sqrt
 
 from .version import version
 
 
 class RSR(object):
-    """RSR.
+    """###Clase de la calculadora `RSR`.
 
-    Class that allow us to obtain observation time.
+    **Realiza las operaciones para obtener el tiempo
+    requerido y el tiempo estimado de una observación.**
+    ___
     """
 
-    MODE_1 = 1
-    MODE_2 = 2
     T_SYS = 100
     VEL = 0.031
 
     def __init__(self, mode_data=None):
-        """Construct RSR object.
+        """###Constructor de la clase `RSR`.
 
-        Keyword arguments:
-        mode_data -- Calculator mode (default None)
+        ** :Parameters: **
+
+        - `mode_data` (int) - Modo de la calculadora (1 y 2)
+        ___
         """
         if mode_data is None:
             raise Exception(
@@ -30,31 +38,39 @@ class RSR(object):
             self._mode = mode_data
 
     def get_version(self):
-        """Version.
+        """###Retorna la version de la calculadora.
 
-        Get the module version.
+        ** :rtype: str **
+        ___
         """
         return version
 
     def set_mode(self, mode_data):
-        """Set Mode.
+        """###Actualiza el modo de la calculadora.
 
-        Set mode
+        ** :Parameters: **
+
+        - `mode_data` (int) - Modo de la calculadora (1 y 2)
+        ___
         """
         self._mode = mode_data
 
     def calculator(self, freq_data, time_data, unit_data):
-        """calculator.
+        """###Retorna el resultado de un modo y unidad en especifico.
 
-        Keyword arguments:
-        freq_data -- frequency 73 and 111 GHz
-        time_data -- time observing
-        unit_data -- unit (mk,mjy or temperature, flux)
+        ** :Parameters: **
 
-        return a dict
+        - `freq_data` (int) - Frecuencia entre 73 y 111 (en GHz.).
+        - `time_data` (float) - Tiempo de observación (en min.).
+        - `unit_data` (str) - Unidades mK, mJy, temperature, flux.
+
+        ** :rtype: ** dict
+
+        **  :note: **Recuerde que `unit_data` es definida de acuerdo al modo.
+        ___
         """
         self.frequency = freq_data
-        if self._mode == self.MODE_1:
+        if self._mode == 1:
             if unit_data == 'mK':
                 mk = '{0:.2f}'.format(self._calculate_mk(time_data))
                 return {'mK': mk}
@@ -62,7 +78,7 @@ class RSR(object):
                 mjy = '{0:.2f}'.format(self._calculate_mjy(time_data))
                 return {'mJy': mjy}
 
-        elif self._mode == self.MODE_2:
+        elif self._mode == 2:
             if unit_data == 'temperature':
                 time = '{0:.2f}'.format(self._calculate_temperature(time_data))
                 return {'time': time}
@@ -71,63 +87,76 @@ class RSR(object):
                 return {'time': time}
 
     def _calculate_mk(self, time_data):
-        """The mK unit.
+        """###Devuelve el resultado del modo 1 para la unidad mK.
 
-        Keyword arguments:
-        time_data -- time observing
+        ** :Parameters: **
 
-        return a float
+        - `time_data` (float) - Tiempo de observación (en min.)
+
+        **:rtype: ** float
+        ___
         """
-        return (self.T_SYS/100)*(sqrt(100)/sqrt(self._calculate_vel())) \
+        return (self.T_SYS / 100) * (sqrt(100) / sqrt(self._calculate_vel())) \
             * sqrt(10) / sqrt(time_data)
 
     def _calculate_mjy(self, time_data):
-        """The mJy unit.
+        """####Devuelve el resultado del modo 1 para la unidad mJy.
 
-        Keyword arguments:
-        time_data -- time observing
+        ** :Parameters: **
 
-        return a float
+        - `time_data` (float) - Tiempo de observación (en min.)
+
+        ** :rtype: ** float
+        ___
         """
-        return 2.81*(self.T_SYS/100)*(sqrt(100)/sqrt(self._calculate_vel())) \
+        return 2.81 * (self.T_SYS / 100) * (sqrt(100) / sqrt(self._calculate_vel())) \
             * sqrt(10) / sqrt(time_data)
 
-    def _calculate_temperature(self, time_data):
-        """The temperature unit.
+    def _calculate_temperature(self, sensitivity_data):
+        """###Devuelve el resultado del modo 2 para la unidad temperature.
 
-        Keyword arguments:
-        time_data -- time observing
+        ** :Parameters: **
 
-        return a float
+        - `sensitivity_data` (float) - Sensivilidad requerida (en mK.)
+
+        ** :rtype: ** float
+        ___
         """
-        return (10*self.T_SYS**2) /\
-            (100*self._calculate_vel()*(time_data**2))
+        return (10 * self.T_SYS ** 2) /\
+            (100 * self._calculate_vel() * (sensitivity_data ** 2))
 
-    def _calculate_flux(self, time_data):
-        """The flux unit.
+    def _calculate_flux(self, sensitivity_data):
+        """###Devuelve el resultado del modo 2 para la unidad flux.
 
-        Keyword arguments:
-        time_data -- time observing
+        ** :Parameters: **
 
-        return a float
+        - `sensitivity_data` (float) - Sensivilidad requerida (en mJy.)
+
+        ** :rtype: ** float
+        ___
         """
-        return (78.961 * (self.T_SYS**2)) /\
-            (100 * self._calculate_vel()*(time_data**2))
+        return (78.961 * (self.T_SYS ** 2)) /\
+            (100 * self._calculate_vel() * (sensitivity_data ** 2))
 
     def _calculate_vel(self):
-        """Calculate Increase in speed.
+        """###Calcula el aumento en la velocidad.
 
-        return a float
+        ** :rtype: ** float
+        ___
         """
-        return (299792.458*self.VEL)/self.frequency
+        return (299792.458 * self.VEL) / self.frequency
 
     def validate_frequency(self, freq_data):
-        """Validate frequency.
+        """###Valida la frecuencia.
 
-        Keyword arguments:
-        freq_data -- frequency 73 and 111 GHz
+        ** :Parameters: **
 
-        return a boolean
+        - `freq_data` (float) - Frecuencia (en GHz.)
+
+        ** :return: ** True si el valor es entre 73 y 111
+
+        ** :rtype: ** bool
+        ___
         """
         if freq_data >= 73 and freq_data <= 111:
             return True
@@ -135,12 +164,16 @@ class RSR(object):
             return False
 
     def validate_sensitivity(self, sensitivity_data):
-        """Validate sensitivity.
+        """###Valida la sensivilidad.
 
-        Keyword arguments:
-        sensivity_data -- sensivity > 0
+        ** :Parameters: **
 
-        return a boolean
+        - `sensitivity_data` (float) - sensivilidad.
+
+        ** :return: ** True si el valor es mayor que cero.
+
+        ** :rtype: ** bool
+        ___
         """
         if sensitivity_data > 0.0:
             return True
