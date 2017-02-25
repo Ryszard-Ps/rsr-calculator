@@ -5,31 +5,16 @@ rsr-calculator.
 -----
 It is a package of a calculator to realize observation time
 -----
-Save in a calculator_test.py:
-.. code:: python
-    from rsr_calculator import RSR
-
-    if __name__ == "__main__":
-        mode_1 = RSR(1)
-        print(mode_1.validate_frequency(100))
-        print(mode_1.calculator(92, 25, 'mk'))
-        print(mode_1.calculator(92, 25, 'mjy'))
-
-        mode_2 = RSR(2)
-        print(mode_2.validate_frequency(140))
-        print(mode_2.calculator(92, 0.6292637454966844, 'temperature'))
-        print(mode_2.calculator(92, 1.7682311248456835, 'flux'))
-
-
 And Easy to Setup
 `````````````````
 And run it:
 .. code:: bash
     $ pip install git+https://github.com/Ryszard-Ps/rsr-calculator.git
-    $ python calculator_test.py
 
   <https://github.com/Ryszard-Ps/rsr-calculator.git>`_
 """
+
+import rsr_calculator
 
 # Always prefer setuptools over distutils
 from setuptools import find_packages, setup
@@ -40,7 +25,7 @@ setup(
     # Versions should comply with PEP440.  For a discussion on single-sourcing
     # the version across setup.py and the project code, see
     # https://packaging.python.org/en/latest/single_source_version.html
-    version='0.3.2',
+    version=rsr_calculator.version,
 
     description='RSR Integration Time Calculator',
     long_description='long description',
@@ -64,11 +49,8 @@ setup(
         'Operating System :: OS Independent',
         'Programming Language :: Python',
         'Programming Language :: Python :: 2',
-        'Programming Language :: Python :: 2.6',
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.3',
-        'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
         'Topic :: Software Development :: Libraries :: Python Modules'
@@ -89,13 +71,6 @@ setup(
     # https://packaging.python.org/en/latest/requirements.html
     install_requires=[''],
 
-    # If there are data files included in your packages that need to be
-    # installed, specify them here.  If using Python 2.6 or less, then these
-    # have to be included in MANIFEST.in as well.
-    package_data={
-        'rsr_calculator': ['package_data.dat'],
-    },
-
     # Although 'package_data' is the preferred approach, in some case you may
     # need to place data files outside of your packages. See:
     # http://docs.python.org/3.4/distutils/setupscript.html#installing-additional-files # noqa
@@ -105,5 +80,4 @@ setup(
     # To provide executable scripts, use entry points in preference to the
     # "scripts" keyword. Entry points provide cross-platform support and allow
     # pip to create the appropriate form of executable for the target platform.
-
 )
